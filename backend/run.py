@@ -1,11 +1,12 @@
 import responder
 import traceback
 import urllib.parse
-
+import json
 from alchemydb import Session, engine
 from models import Manga
 
 from sqlutils import alchemytojson, alchemytodict
+from manga_title import result_doc2vec
 
 api = responder.API()
 
@@ -29,17 +30,10 @@ def users_json(req, resp, *, id):
 def users_json(req, resp, *, title):
     # urlのデコード
     title = urllib.parse.unquote(title)
-    session = Session()
-    try:
-        manga = session.query(Manga).filter_by(title=title).first()
-        resp.headers = {"Content-Type": "application/json; charset=utf-8"}
-        resp.content = alchemytojson(manga)
-    except Exception:
-        traceback.print_exc()
-        resp.media = {"errmessage": "Error occured"}
-    finally:
-        session.close()
-        print(engine.pool.status())
+
+    resp.headers = {"Content-Type": "application/json; charset=utf-8"}
+    resp.content = json.dumps(result_doc2vec(
+        title), indent=2, ensure_ascii=False)
 
 
 @api.route("/api/mangas")
