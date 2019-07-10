@@ -1,29 +1,15 @@
 import responder
-import traceback
 import urllib.parse
-import json
-from alchemydb import Session, engine
-from models import Manga
-
-from sqlutils import alchemytojson, alchemytodict
-from manga_title import result_doc2vec
+from get_manga_info import get_manga_list, get_manga
+from manga_doc2vec import result_doc2vec
 
 api = responder.API()
 
 
 @api.route("/api/manga/{id}")
 def users_json(req, resp, *, id):
-    session = Session()
-    try:
-        manga = session.query(Manga).filter_by(id=id).first()
-        resp.headers = {"Content-Type": "application/json; charset=utf-8"}
-        resp.content = alchemytojson(manga)
-    except Exception:
-        traceback.print_exc()
-        resp.media = {"errmessage": "Error occured"}
-    finally:
-        session.close()
-        print(engine.pool.status())
+    resp.headers = {"Content-Type": "application/json; charset=utf-8"}
+    resp.content = get_manga(id)
 
 
 @api.route("/api/title/{title}")
@@ -32,23 +18,13 @@ def users_json(req, resp, *, title):
     title = urllib.parse.unquote(title)
 
     resp.headers = {"Content-Type": "application/json; charset=utf-8"}
-    resp.content = json.dumps(result_doc2vec(
-        title), indent=2, ensure_ascii=False)
+    resp.content = result_doc2vec(title)
 
 
 @api.route("/api/mangas")
 def users_json(req, resp):
-    session = Session()
-    try:
-        mangas = session.query(Manga).all()
-        resp.headers = {"Content-Type": "application/json; charset=utf-8"}
-        resp.content = alchemytojson(mangas)
-    except Exception:
-        traceback.print_exc()
-        resp.media = {"errmessage": "Error occured"}
-    finally:
-        session.close()
-        print(engine.pool.status())
+    resp.headers = {"Content-Type": "application/json; charset=utf-8"}
+    resp.content = get_manga_list()
 
 
 if __name__ == '__main__':

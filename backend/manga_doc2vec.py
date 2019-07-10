@@ -1,23 +1,7 @@
-# from gensim.models.doc2vec import Doc2Vec, TaggedDocument
-
-# with open('text/title.txt', mode='r', encoding='utf-8') as f:
-#     manga_title = f.read()
-# manga_title = manga_title.split('\n')
-
-# manga_index = {}
-# for i, title in enumerate(manga_title):
-#     manga_index[''.join(title)] = i
-
-# model = Doc2Vec.load('model/manga_title.model')
-
-# for p in model.docvecs.most_similar(manga_index['イナズマイレブン']):
-#     print(manga_title[p[0]])
-
-
 from gensim.models.doc2vec import Doc2Vec, TaggedDocument
-from alchemydb import Session, engine
+from setting import Session
 from models import Manga
-import urllib.parse
+import json
 
 
 def result_doc2vec(title):
@@ -33,10 +17,11 @@ def result_doc2vec(title):
                 "id": m.id,
                 "title": m.title,
                 "manga_url": m.manga_url,
-                "imaga_url": m.image_url
+                "imaga_url": m.image_url,
+                "tag": m.tag
             })
     except Exception as e:
         print(e)
     finally:
         session.close()
-        return result
+        return json.dumps(result, indent=2, ensure_ascii=False)
