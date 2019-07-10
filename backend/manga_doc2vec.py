@@ -10,7 +10,7 @@ def result_doc2vec(title):
     try:
         manga = session.query(Manga).filter_by(title=title).first()
         if manga:
-            model = Doc2Vec.load('model/manga_doc2vec.model')
+            model = Doc2Vec.load('static/manga_doc2vec.model')
             for p in model.docvecs.most_similar(manga.id - 1):
                 m = session.query(Manga).filter_by(id=int(p[0])+1).first()
                 result.append({
