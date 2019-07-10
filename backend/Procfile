@@ -1,1 +1,1 @@
-web: python run.py
+ web: uvicorn app:run --log-file -
