@@ -7,7 +7,7 @@ def get_manga(manga):
         "id": manga.id,
         "title": manga.title,
         "manga_url": manga.manga_url,
-        "imaga_url": manga.image_url,
+        "image_url": manga.image_url,
         "tag": manga.tag
     }
     return manga_dict
@@ -20,7 +20,7 @@ def get_manga_list(mangas):
             "id": manga.id,
             "title": manga.title,
             "manga_url": manga.manga_url,
-            "imaga_url": manga.image_url,
+            "image_url": manga.image_url,
             "tag": manga.tag
         })
     return manga_list

@@ -1,1 +1,1 @@
- web: uvicorn run:api --log-file -
+web: python run.py

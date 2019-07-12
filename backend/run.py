@@ -7,7 +7,9 @@ from models import Manga
 from get_manga_info import get_manga_list, get_manga
 from manga_doc2vec import result_doc2vec
 
-api = responder.API()
+api = responder.API(cors=True, cors_params={
+    'allow_origins': ['*']
+})
 
 # idに合ったmangaデータをjsonで返す
 

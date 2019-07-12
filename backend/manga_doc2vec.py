@@ -17,7 +17,7 @@ def result_doc2vec(title):
                     "id": m.id,
                     "title": m.title,
                     "manga_url": m.manga_url,
-                    "imaga_url": m.image_url,
+                    "image_url": m.image_url,
                     "tag": m.tag
                 })
     except Exception as e:
