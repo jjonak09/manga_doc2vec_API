@@ -42,5 +42,5 @@ typesystem==0.2.4
 urllib3==1.25.3
 uvicorn==0.8.3
 uvloop==0.12.2
-websockets==7.0
+websockets==9.1
 whitenoise==4.1.2
